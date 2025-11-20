@@ -1,0 +1,11 @@
+.env
+
+.idea/
+.vscode/
+*.log
+
+**/target/
+**.mvn/wrapper/maven-wrapper.properties
+
+webapp/node_modules/
+webapp/.angular/

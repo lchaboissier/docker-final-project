@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+# Docker & Env
+docker-compose.yml
+.env
+.env.example
+.dockerignore
+Dockerfile
+nginx.conf
+
+# Java / Spring Boot (Ignorer partout)
+**/target
+**/.mvn
+**/mvnw
+**/mvnw.cmd
+**/*.class
+**/*.jar
+
+# Node / Angular (Ignorer partout)
+**/node_modules
+**/.angular
+**/.vscode
+**/.idea
+
+# Logs et Fichiers temporaires
+*.log
+.DS_Store

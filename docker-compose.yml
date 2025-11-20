@@ -1,0 +1,49 @@
+services:
+  # --- Base de données ---
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal-net
+
+  # --- Backend ---
+  spring-api:
+    build: ./spring-api
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    depends_on:
+      - db
+    networks:
+      - internal-net
+
+  # --- Frontend ---
+  webapp:
+    build: ./webapp
+    networks:
+      - internal-net
+
+  # --- Reverse Proxy ---
+  reverse-proxy:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./reverse-proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - spring-api
+      - webapp
+    networks:
+      - internal-net
+
+volumes:
+  pgdata:
+
+networks:
+  internal-net:
